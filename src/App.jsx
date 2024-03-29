@@ -6,16 +6,11 @@ const App = () => {
   const [count, setCount] = useState(1);
   const [text, setText] = useState([]);
 
-  const refInput = useRef(1);
-
-  useEffect(() => {
-    refInput.current;
-  });
+  const refInput = useRef(null);
 
   const useRefInputs = (e) => {
     e.preventDefault();
-    const para = refInput.current.value;
-    setText(data.slice(0, parseInt(para)));
+    console.log(refInput.current.value);
   };
 
   const unControlledInputs = (e) => {
@@ -33,7 +28,7 @@ const App = () => {
   return (
     <section className="section-center">
       <h4>tired of boring lorem ipsum?</h4>
-      <form className="lorem-form" onSubmit={controlledInputs}>
+      <form className="lorem-form" onSubmit={useRefInputs}>
         <label htmlFor="paragraphs" className="form-label">
           paragraphs
         </label>
@@ -46,8 +41,8 @@ const App = () => {
           step={1}
           max={8}
           className="form-input"
-          onChange={(e) => setCount(e.target.value)}
           ref={refInput}
+          onChange={(e) => setCount(e.target.value)}
         />
         <button type="submit" className="btn">
           Generate
@@ -56,11 +51,9 @@ const App = () => {
       <article className="lorem-text">
         {text.map((item, index) => {
           return (
-            <div>
+            <div key={nanoid()}>
               {/* <span>{index + 1}</span> */}
-              <p key={nanoid()} ref={useRefInputs}>
-                {item}
-              </p>
+              <p ref={refInput}>{item}</p>
             </div>
           );
         })}
